@@ -67,7 +67,7 @@ def load_movies():
         movie = Movie(movie_id=movie_id, title=movie_title,
                       released_at=released_at, imdb_url=imdb_url)
 
-        db.session.add(movie)
+                                          db.session.add(movie)
 
     db.session.commit()
 
