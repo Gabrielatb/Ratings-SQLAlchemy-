@@ -71,15 +71,17 @@ def login_form():
     return render_template("login.html")
 
 
-
 @app.route("/login", methods=["POST"])
 def login_process():
     """Processes login form"""
+    print "enter the login_process"
     email = request.form["email"]
+    print "reached the email"
     password = request.form["password"]
+    print "reached the password"
 
+    db_email = User.query.filter_by(email=email).first()
 
-    db_email = User.query.filter_by(email=email).one()
 
     if not db_email:
         return redirect("/register")
@@ -89,9 +91,15 @@ def login_process():
 
             session['user_id'] = db_email.user_id
 
-            flash('You were successfully logged in')
+            flash('You were successfully logged in.')
             return redirect("/")
 
+@app.route("/logout")
+def logout_form():
+    """Show login form"""
+    del session["user_id"]
+    flash('You were successfully logged out.')
+    return redirect("/")
 
 
 
