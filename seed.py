@@ -67,7 +67,7 @@ def load_movies():
         movie = Movie(movie_id=movie_id, title=movie_title,
                       released_at=released_at, imdb_url=imdb_url)
 
-                                          db.session.add(movie)
+        db.session.add(movie)
 
     db.session.commit()
 
@@ -133,6 +133,7 @@ if __name__ == "__main__":
     db.create_all()
 
     # Import different types of data
+    Rating.query.delete()
     load_users()
     load_movies()
     load_ratings()

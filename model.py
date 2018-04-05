@@ -28,7 +28,7 @@ class User(db.Model):
         """Provide helpful representation when printed."""
 
         return "<User user_id={} email={}>".format(self.user_id,
-                                               self.email)
+                                               self.email, self.password)
 
 
 # Put your Movie and Rating model classes here.

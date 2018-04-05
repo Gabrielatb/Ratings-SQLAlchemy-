@@ -64,6 +64,41 @@ def register_process():
     return redirect("/")
 
 
+@app.route("/login")
+def login_form():
+    """Show login form"""
+
+    return render_template("login.html")
+
+
+
+@app.route("/login", methods=["POST"])
+def login_process():
+    """Processes login form"""
+    email = request.form["email"]
+    password = request.form["password"]
+
+
+    db_email = User.query.filter_by(email=email).one()
+
+    if not db_email:
+        return redirect("/register")
+    else:
+        user_email = db_email.email
+        if password == db_email.password:
+
+            session['user_id'] = db_email.user_id
+
+            flash('You were successfully logged in')
+            return redirect("/")
+
+
+
+
+
+
+
+
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the
     # point that we invoke the DebugToolbarExtension
@@ -74,6 +109,7 @@ if __name__ == "__main__":
     connect_to_db(app)
 
     # Use the DebugToolbar
+    app.config['SQLALCHEMY_ECHO'] = True
     DebugToolbarExtension(app)
 
     app.run(port=5000, host='0.0.0.0')
